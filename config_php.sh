@@ -12,5 +12,5 @@ config_php=(
    '7.2.4      7.2        9009  true'
 )
 
-web_user='apache';
-web_group='apache';
+web_user='www-data';
+web_group='www-data';

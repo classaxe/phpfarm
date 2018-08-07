@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Enable trace printing and exit on the first error
+set -ex
+
 function setup_xdebug() {
     cd /usr/lib
     if [ -d /usr/lib/xdebug ]; then
@@ -48,7 +51,7 @@ function setup_php_fpm() {
     local processes
     local shortname
 
-    source /vagrant/config_php.sh
+    source config_php.sh
 
     # Remove any php version not currently shown in config_php.sh
     for installed in $(ls -d /opt/phpfarm/inst/php-* | cut -d'/' -f5 | cut -d'-' -f2); do
