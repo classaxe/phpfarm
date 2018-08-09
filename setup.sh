@@ -150,6 +150,9 @@ function setup_php_fpm() {
             chmod +x /etc/init.d/php-${phpn}
             update-rc.d php-${phpn} defaults
         fi
+        if [ ! -L /opt/phpfarm/inst/php-${phpv}/pear/php ]; then
+           ln -ns /usr/share/pear /opt/phpfarm/inst/php-${phpv}/pear/php
+        fi
     done
 }
 
