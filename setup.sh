@@ -28,9 +28,9 @@ function setup_xdebug() {
     make
     make install
     if [[ $1 == *"5.4"* ]] ; then
-        cat /vagrant/files/xdebug-5.4.txt >> /opt/phpfarm/inst/php-$1/etc/php.ini
+        cat /opt/phpfarm/files/xdebug-5.4.txt >> /opt/phpfarm/inst/php-$1/etc/php.ini
     else
-        cat /vagrant/files/xdebug.txt >> /opt/phpfarm/inst/php-$1/etc/php.ini
+        cat /opt/phpfarm/files/xdebug.txt >> /opt/phpfarm/inst/php-$1/etc/php.ini
     fi
 }
 
@@ -99,24 +99,24 @@ function setup_php_fpm() {
 
         if [ ! -f /opt/phpfarm/inst/php-${phpv}/bin/php ]; then
             # Attempt to download from vagrant-lamp-assets repo if available
-            if [ ${phpb} == 'false' ] && [ ! -f /vagrant/files/php_builds/php-${phpv}.tar.gz ]; then
+            if [ ${phpb} == 'false' ] && [ ! -f /opt/phpfarm/files/php_builds/php-${phpv}.tar.gz ]; then
                 echo "Attempting to download php-${phpv}.tar.gz"
-                if [[ `wget -c -S -O /vagrant/files/php_builds/php-${phpv}.tar.gz https://github.com/classaxe/clamp-assets/releases/download/v1.0/php-${phpv}.tar.gz  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+                if [[ `wget -c -S -O /opt/phpfarm/files/php_builds/php-${phpv}.tar.gz https://github.com/classaxe/clamp-assets/releases/download/v1.0/php-${phpv}.tar.gz  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
                     echo "Successfully downloaded php-${phpv}.tar.gz"
                 else
-                    rm -f /vagrant/files/php_builds/php-${phpv}.tar.gz
+                    rm -f /opt/phpfarm/files/php_builds/php-${phpv}.tar.gz
                     echo "Error downloading php-${phpv}.tar.gz"
                 fi
             fi
 
-            if [ ${phpb} == 'true' ] || [ ! -f /vagrant/files/php_builds/php-${phpv}.tar.gz ] ; then
+            if [ ${phpb} == 'true' ] || [ ! -f /opt/phpfarm/files/php_builds/php-${phpv}.tar.gz ] ; then
                 cd /opt/phpfarm/src
                 ./main.sh ${phpv}
                 setup_xdebug ${phpv}
                 cp /opt/phpfarm/inst/php-${phpv}/etc/php.ini /opt/phpfarm/inst/php-${phpv}/lib/php.ini
              else
                 cd /opt/phpfarm/inst
-                tar -zxf /vagrant/files/php_builds/php-${phpv}.tar.gz
+                tar -zxf /opt/phpfarm/files/php_builds/php-${phpv}.tar.gz
              fi
         fi
         if [ ${phpv:0:1} == 5 ]; then
