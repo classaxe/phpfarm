@@ -159,8 +159,14 @@ function setup_php_fpm() {
 setup_php_fpm
 
 # Add PHPFarm to PATH
-if ! grep -q "phpfarm" /etc/environment ; then
+if [ ! grep -q "phpfarm" /etc/environment ] ; then
     echo "PATH="$PATH:/opt/phpfarm/inst/bin:/opt/phpfarm/inst/current/bin:/opt/phpfarm/inst/current/sbin"" >> /etc/environment
+    source /etc/environment
+fi
+
+# Add php-functions.sh into /etc/profile.d - unless this is a vagrant install with its own alias handling
+if [ ! -f /etc/profile.d/php-functions.sh ] && [ ! -f /vagrant/config_php.sh ] ; then
+    cp /opt/phpfarm/files/php-functions.sh /etc/profile.d/php-functions.sh
 fi
 
 # Set Default php to newest available
